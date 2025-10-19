@@ -12,7 +12,7 @@ public class CachingBreedFetcher implements BreedFetcher {
     }
 
     @Override
-    public List<String> getSubBreeds(String breed) {
+    public List<String> getSubBreeds(String breed) throws BreedFetcher.BreedNotFoundException {
         if (cache.containsKey(breed)) {
             return cache.get(breed);
         }
@@ -22,7 +22,7 @@ public class CachingBreedFetcher implements BreedFetcher {
             cache.put(breed, subBreeds);
             callsMade++;
             return subBreeds;
-        } catch (BreedNotFoundException e) {
+        } catch (BreedFetcher.BreedNotFoundException e) {
             // Do not cache failed lookups
             callsMade++;
             throw e;
